@@ -1,8 +1,29 @@
 {
+    "format_version": "1.3.0",
     "meta": {
         "name": "Offhand",
         "version": "1.0.10",
+        "namespace": "fx_offhand",
         "author": "FrederoxDev",
-        "namespace": "fx_offhand"
+        "is_runtime": false,
+        "uuid": "617bf47b-1a64-4b0f-8c81-f85b867cc9b0",
+        "dependencies": [
+            {
+                "dependency_uuid": "e56c3987-fd4a-4590-9923-a07fc4be7250",
+                "dependency_namespace": "amethyst",
+                "version_range": ">=2.2.5",
+                "is_soft": false
+            }
+        ],
+        "platforms": {
+            "win-client": {
+                "game_builds": [
+                    {
+                        "version": "1.26.42",
+                        "guid": "E441A62C-3AC0-B238-4C4C-44205044422E"
+                    }
+                ]
+            }
+        }
     }
 }

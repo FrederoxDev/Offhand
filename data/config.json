@@ -1,5 +1,5 @@
 {
-	"$schema": "https://raw.githubusercontent.com/Bedrock-OSS/regolith-schemas/main/config/v1.4.json",
+	"$schema": "https://raw.githubusercontent.com/ink0rr/rgl-schemas/main/config/v1.1.json",
 	"author": "FrederoxDev",
 	"name": "offhand",
 	"packs": {
@@ -14,15 +14,24 @@
 				"version": "1.0.4"
 			}
 		},
-		"formatVersion": "1.4.0",
 		"profiles": {
 			"default": {
 				"export": {
-					"bpPath": "%localappdata%/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/mods/Offhand@1.0.7/behavior_packs/main_bp",
-					"build": "standard",
-					"readOnly": false,
-					"rpPath": "%localappdata%/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/amethyst/mods/Offhand@1.0.7/resource_packs/main_rp",
-					"target": "exact"
+					"target": "exact",
+					"rpPath": "%amethyst%\\Launcher\\Mods\\Offhand@0.0.0-dev\\resource_packs\\main_rp",
+					"bpPath": "%amethyst%\\Launcher\\Mods\\Offhand@0.0.0-dev\\behavior_packs\\main_bp"
+				},
+				"filters": [
+					{
+						"filter": "regolith_generators"
+					}
+				]
+			},
+			"package": {
+				"export": {
+					"target": "exact",
+					"rpPath": "../dist/unpackaged/resource_packs/main_rp",
+					"bpPath": "../dist/unpackaged/behavior_packs/main_bp"
 				},
 				"filters": [
 					{

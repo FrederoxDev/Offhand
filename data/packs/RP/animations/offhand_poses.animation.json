@@ -1,0 +1,477 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.player.bow_equipped": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (-90.0 + query.target_x_rotation - query.is_sneaking * 15.0 - this) + variable.offhand_pose * ((-90.0 + query.target_x_rotation - query.is_sneaking * 15.0 - this))",
+						"(1.0 - variable.offhand_pose) * (27.5 + query.target_y_rotation) + variable.offhand_pose * (-(-5.0 + (-query.target_y_rotation)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-0.0)"
+					]
+				},
+				"leftitem": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (10.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-0.0)"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (-90.0 + query.target_x_rotation - query.is_sneaking * 15.0 - this) + variable.offhand_pose * ((-90.0 + query.target_x_rotation - query.is_sneaking * 15.0 - this))",
+						"(1.0 - variable.offhand_pose) * (-5.0 + query.target_y_rotation) + variable.offhand_pose * (-(27.5 + (-query.target_y_rotation)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-0.0)"
+					]
+				},
+				"rightitem": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (-10.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)"
+					]
+				}
+			}
+		},
+		"animation.player.crossbow_equipped": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"position": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.5) + variable.offhand_pose * (0.0)"
+					],
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (-this - 65.0 - (1.0 - variable.item_use_normalized) * 5.0) + variable.offhand_pose * ((- 60.0 - this))",
+						"(1.0 - variable.offhand_pose) * (-this + (1.0 - variable.item_use_normalized) * 30.0) + variable.offhand_pose * (-(- 45.0 - (-this)))",
+						"(1.0 - variable.offhand_pose) * (-this + 20.0 + (1.0 - variable.item_use_normalized) * 10.0) + variable.offhand_pose * (-(- 2.5 - (-this)))"
+					]
+				},
+				"rightarm": {
+					"position": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.5)"
+					],
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (- 60.0 - this) + variable.offhand_pose * ((-this - 65.0 - (1.0 - variable.offhand_item_use_normalized) * 5.0))",
+						"(1.0 - variable.offhand_pose) * (- 45.0 - this) + variable.offhand_pose * (-(-(-this) + (1.0 - variable.offhand_item_use_normalized) * 30.0))",
+						"(1.0 - variable.offhand_pose) * (- 2.5 - this) + variable.offhand_pose * (-(-(-this) + 20.0 + (1.0 - variable.offhand_item_use_normalized) * 10.0))"
+					]
+				}
+			}
+		},
+		"animation.player.crossbow_hold": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (query.is_swimming ? 0.0 : -93.0 + query.target_x_rotation - query.is_sneaking * 27.0 -this) + variable.offhand_pose * ((query.is_swimming ? 0.0 : -93.0 + query.target_x_rotation - query.is_sneaking * 27.0 -this))",
+						"(1.0 - variable.offhand_pose) * (query.is_swimming ? 0.0 : 42.0 + math.clamp(query.target_y_rotation, -45.0, 5.0) -this) + variable.offhand_pose * (-(query.is_swimming ? 0.0 : math.clamp((-query.target_y_rotation), -60.0, 45.0) -(-this)))",
+						"(1.0 - variable.offhand_pose) * (query.is_sneaking * -15.0) + variable.offhand_pose * (-0.0)"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (query.is_swimming ? 0.0 : -93.0 + query.target_x_rotation - query.is_sneaking * 27.0 -this) + variable.offhand_pose * ((query.is_swimming ? 0.0 : -93.0 + query.target_x_rotation - query.is_sneaking * 27.0 -this))",
+						"(1.0 - variable.offhand_pose) * (query.is_swimming ? 0.0 : math.clamp(query.target_y_rotation, -60.0, 45.0) -this) + variable.offhand_pose * (-(query.is_swimming ? 0.0 : 42.0 + math.clamp((-query.target_y_rotation), -45.0, 5.0) -(-this)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(query.is_sneaking * -15.0))"
+					]
+				}
+			}
+		},
+		"animation.humanoid.brandish_spear": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * ((this * -0.5 - 143.5 - 22.5 * variable.charge_amount))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(-(-this)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(-((math.cos(query.life_time * 103.2) * 2.865) + 2.865)))"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (this * -0.5 - 143.5 - 22.5 * variable.charge_amount) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (-this) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (-((math.cos(query.life_time * 103.2) * 2.865) + 2.865)) + variable.offhand_pose * (0.0)"
+					]
+				}
+			}
+		},
+		"animation.humanoid.charging": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * ((22.5 * variable.charge_amount - this))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(-(-this)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-0.0)"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (22.5 * variable.charge_amount - this) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (-this) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0.0)"
+					]
+				}
+			}
+		},
+		"animation.humanoid.holding_spyglass": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * ((math.clamp(query.target_x_rotation - 105 - (variable.is_sneaking ? 15 : 0), -170, 180)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(math.clamp((-query.target_y_rotation) - 15, -60, 90)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-5.0)"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_x_rotation - 105 - (variable.is_sneaking ? 15 : 0), -170, 180)) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_y_rotation - 15, -60, 90)) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (5.0) + variable.offhand_pose * (0.0)"
+					]
+				}
+			}
+		},
+		"animation.humanoid.tooting_goat_horn": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * ((math.clamp(query.target_x_rotation, -43, 14) - 75))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(math.clamp((-query.target_y_rotation), -37, 43) - 30))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-5.0)"
+					]
+				},
+				"leftitem": {
+					"position": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-4)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (1)"
+					],
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (15)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (0)",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-100)"
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_x_rotation, -43, 14) - 75) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_y_rotation, -37, 43) - 30) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (5.0) + variable.offhand_pose * (0.0)"
+					]
+				},
+				"rightitem": {
+					"position": [
+						"(1.0 - variable.offhand_pose) * (4) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (1) + variable.offhand_pose * (0.0)"
+					],
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (15) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (0) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (100) + variable.offhand_pose * (0.0)"
+					]
+				}
+			}
+		},
+		"animation.humanoid.brushing": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * ((math.clamp(query.target_x_rotation, -43, 14) - 50))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-(math.clamp((-query.target_y_rotation), -37, 43)))",
+						"(1.0 - variable.offhand_pose) * (0.0) + variable.offhand_pose * (-5.0)"
+					]
+				},
+				"leftitem": {
+					"position": {
+						"0.0": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"0.1": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								"variable.offhand_pose * -1.5",
+								0.0,
+								"variable.offhand_pose * -3"
+							]
+						},
+						"0.2": {
+							"pre": [
+								"variable.offhand_pose * -1.5",
+								0.0,
+								"variable.offhand_pose * -3"
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.3": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								"variable.offhand_pose * -1.5",
+								0.0,
+								"variable.offhand_pose * 3"
+							]
+						},
+						"0.4": {
+							"pre": [
+								"variable.offhand_pose * -1.5",
+								0.0,
+								"variable.offhand_pose * 3"
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.5": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						}
+					},
+					"rotation": {
+						"0.0": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"0.1": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								"variable.offhand_pose * 30",
+								0.0
+							]
+						},
+						"0.2": {
+							"pre": [
+								0.0,
+								"variable.offhand_pose * 30",
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.3": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								"variable.offhand_pose * -30",
+								0.0
+							]
+						},
+						"0.4": {
+							"pre": [
+								0.0,
+								"variable.offhand_pose * -30",
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.5": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						}
+					}
+				},
+				"rightarm": {
+					"rotation": [
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_x_rotation, -43, 14) - 50) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (math.clamp(query.target_y_rotation, -37, 43)) + variable.offhand_pose * (0.0)",
+						"(1.0 - variable.offhand_pose) * (5.0) + variable.offhand_pose * (0.0)"
+					]
+				},
+				"rightitem": {
+					"position": {
+						"0.0": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"0.1": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								"(1.0 - variable.offhand_pose) * 1.5",
+								0.0,
+								"(1.0 - variable.offhand_pose) * -3"
+							]
+						},
+						"0.2": {
+							"pre": [
+								"(1.0 - variable.offhand_pose) * 1.5",
+								0.0,
+								"(1.0 - variable.offhand_pose) * -3"
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.3": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								"(1.0 - variable.offhand_pose) * 1.5",
+								0.0,
+								"(1.0 - variable.offhand_pose) * 3"
+							]
+						},
+						"0.4": {
+							"pre": [
+								"(1.0 - variable.offhand_pose) * 1.5",
+								0.0,
+								"(1.0 - variable.offhand_pose) * 3"
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.5": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						}
+					},
+					"rotation": {
+						"0.0": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"0.1": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								"(1.0 - variable.offhand_pose) * -30",
+								0.0
+							]
+						},
+						"0.2": {
+							"pre": [
+								0.0,
+								"(1.0 - variable.offhand_pose) * -30",
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.3": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								"(1.0 - variable.offhand_pose) * 30",
+								0.0
+							]
+						},
+						"0.4": {
+							"pre": [
+								0.0,
+								"(1.0 - variable.offhand_pose) * 30",
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						},
+						"0.5": {
+							"pre": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"post": [
+								0.0,
+								0.0,
+								0.0
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

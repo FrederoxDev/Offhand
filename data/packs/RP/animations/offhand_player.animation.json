@@ -1,0 +1,50 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.player.attack.rotations": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [
+						0.0,
+						"variable.attack_body_rot_y - math.sin(360.0 * math.sqrt(variable.offhand_attack_time)) * 10.0",
+						0.0
+					]
+				},
+				"leftarm": {
+					"rotation": [
+						"-(math.sin((1 - math.pow((1 - variable.attack_time), 4)) * 180) * 1.2 + math.sin(variable.attack_time * 180)) * 10.0 - (math.sin((1 - math.pow((1 - variable.offhand_attack_time), 4)) * 180) * 1.2 + math.sin(variable.offhand_attack_time * 180)) * 30.0",
+						"(math.sin((1 - math.pow((1 - variable.offhand_attack_time), 4)) * 180) ? (-90.0 * math.sin((1 - math.pow((1 - variable.offhand_attack_time), 4)) * 180)) + 30.0 : 0.0)",
+						0.0
+					]
+				},
+				"rightarm": {
+					"rotation": [
+						"-(math.sin((1 - math.pow((1 - variable.attack_time), 4)) * 180) * 1.2 + math.sin(variable.attack_time * 180)) * 30.0 - (math.sin((1 - math.pow((1 - variable.offhand_attack_time), 4)) * 180) * 1.2 + math.sin(variable.offhand_attack_time * 180)) * 10.0",
+						"-(math.sin((1 - math.pow((1 - variable.attack_time), 4)) * 180) ? (-90.0 * math.sin((1 - math.pow((1 - variable.attack_time), 4)) * 180)) + 30.0 : 0.0)",
+						0.0
+					]
+				}
+			}
+		},
+		"animation.humanoid.use_item_progress": {
+			"loop": true,
+			"bones": {
+				"rightarm": {
+					"rotation": [
+						"variable.use_item_startup_progress * -60.0 + variable.use_item_interval_progress * 11.25",
+						"variable.use_item_startup_progress * -22.5 + variable.use_item_interval_progress * 11.25",
+						"variable.use_item_startup_progress * -5.625 + variable.use_item_interval_progress * 11.25"
+					]
+				},
+				"leftarm": {
+					"rotation": [
+						"variable.offhand_use_item_startup_progress * -60.0 + variable.offhand_use_item_interval_progress * 11.25",
+						"-(variable.offhand_use_item_startup_progress * -22.5 + variable.offhand_use_item_interval_progress * 11.25)",
+						"-(variable.offhand_use_item_startup_progress * -5.625 + variable.offhand_use_item_interval_progress * 11.25)"
+					]
+				}
+			}
+		}
+	}
+}

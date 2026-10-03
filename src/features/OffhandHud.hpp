@@ -1,3 +1,7 @@
 #pragma once
 
-void RegisterOffhandHud();
+namespace OffhandHud {
+
+void Initialize();
+
+} // namespace OffhandHud

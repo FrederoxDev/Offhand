@@ -1,106 +1,97 @@
-#include "OffhandHud.hpp"
+#include "features/OffhandHud.hpp"
+
 #include <amethyst/runtime/ModContext.hpp>
-#include <minecraft/src-client/common/client/gui/UIResolvedDef.hpp>
-#include <minecraft/src-client/common/client/gui/gui/UIControl.hpp>
-#include <minecraft/src-client/common/client/gui/controls/CustomRenderComponent.hpp>
-#include <minecraft/src-client/common/client/gui/controls/renderers/MinecraftUICustomRenderer.hpp>
-#include <minecraft/src-deps/core/math/Color.hpp>
-#include <amethyst/Formatting.hpp>
-#include <minecraft/src-client/common/client/player/LocalPlayer.hpp>
-#include <minecraft/src/common/world/entity/components/ActorEquipmentComponent.hpp>
-#include <minecraft/src-client/common/client/renderer/BaseActorRenderContext.hpp>
-#include <minecraft/src-client/common/client/renderer/screen/ScreenContext.hpp>
-#include <minecraft/src-client/common/client/renderer/actor/ItemRenderer.hpp>
-#include <minecraft/src-client/common/client/game/MinecraftGame.hpp>
-#include <minecraft/src-deps/input/InputMappingFactory.hpp>
-#include <minecraft/src-deps/input/InputMapping.hpp>
-#include <minecraft/src/common/world/SimpleContainer.hpp>
-#include <minecraft/src-client/common/client/gui/controls/UIControlFactory.hpp>
+#include <amethyst/runtime/utility/InlineHook.hpp>
+#include <client/game/ClientInstance.hpp>
+#include <client/gui/screens/controllers/HudScreenController.hpp>
+#include <client/player/LocalPlayer.hpp>
+#include <entity/components/ActorEquipmentComponent.hpp>
+#include <world/item/registry/ItemRegistryManager.hpp>
+#include <world/item/registry/ItemRegistryRef.hpp>
+#include <world/level/ILevel.hpp>
+#include <world/actor/player/Player.hpp>
+#include <world/containers/ContainerEnum.hpp>
+#include <world/containers/managers/models/HudContainerManagerModel.hpp>
+#include <world/containers/models/ContainerModel.hpp>
+#include <world/containers/models/OffhandContainerModel.hpp>
 
-class UIResolvedDef;
-class UIControl;
-class UIControlFactory;
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <new>
+#include <optional>
+#include <string>
 
-SafetyHookInline _UIControlFactory__populateCustomRenderComponent;
+namespace {
 
-static HashedString flushString(0xA99285D21E94FC80, "ui_flush");
+static_assert(sizeof(OffhandContainerModel) == sizeof(ContainerModel) + sizeof(Player*));
 
-class TestRenderer : public MinecraftUICustomRenderer {
-public:
-	TestRenderer() : MinecraftUICustomRenderer() {};
+// OffhandContainerModel::OffhandContainerModel is inlined. The deleter frees into this module's allocator, since this
+// module allocated it.
+std::shared_ptr<ContainerModel> createOffhandContainerModel(Player& player)
+{
+    void* storage = ::operator new(sizeof(OffhandContainerModel));
+    auto* model = static_cast<ContainerModel*>(storage);
 
-	virtual std::shared_ptr<UICustomRenderer> clone() const override {
-		return std::make_shared<TestRenderer>();
-	}
+    const FullContainerName name{ContainerEnumName::OffhandContainer, std::nullopt};
+    ContainerModel::$constructor(model, name, 1, ContainerCategory::PlayerInventory, player.isClientSide());
 
-	virtual void render(MinecraftUIRenderContext& ctx, IClientInstance& _client, UIControl& owner, int32_t pass, RectangleArea& renderAABB) override {
-		ClientInstance& client = _client.asInstance();
-		LocalPlayer* player = client.getLocalPlayer();
-		if (!player || mPropagatedAlpha < 0.5) return;
+    *static_cast<uintptr_t*>(storage) = OffhandContainerModel::$vtable_for_OffhandContainerModel;
+    *reinterpret_cast<Player**>(static_cast<std::byte*>(storage) + sizeof(ContainerModel)) = &player;
 
-		ActorEquipmentComponent* equipment = player->tryGetComponent<ActorEquipmentComponent>();
-		if (!equipment || equipment->mHand->mItems.size() <= 1) return;
-
-		const ItemStack& offhand = equipment->mHand->mItems[1];
-		if (offhand.isNull()) return;
-
-		// This disables the item visual from bobbing whenever the offhand stack changes in content
-		ItemStack offhandCopy = offhand;
-		offhandCopy.mShowPickup = false;
-
-		glm::tvec2<float> pos = owner.getPosition();
-
-		BaseActorRenderContext renderCtx(*ctx.mScreenContext, client, *client.mMinecraftGame);
-		int yOffset = offhand.getItem()->getIconYOffset();
-
-		renderCtx.itemRenderer->renderGuiItemNew(&renderCtx, &offhandCopy, 0, pos.x + 3.0f, pos.y - yOffset + 3.0f, false, 1.0f, mPropagatedAlpha, 1.0f);
-		mce::Color color(1.0f, 1.0f, 1.0f, mPropagatedAlpha);
-		ctx.flushImages(color, 1.0f, flushString);
-
-		if (offhand.mCount == 1) return;
-
-		std::string text = std::format("{}", offhand.mCount);
-		float lineLength = ctx.getLineLength(*client.mMinecraftGame->mFontHandle.mDefaultFont, text, 1.0f, false);
-
-		renderAABB._x0 = pos.x + (20.0f - lineLength);
-		renderAABB._x1 = pos.x + 22.0f;
-		renderAABB._y0 = pos.y + 11.0f;
-		renderAABB._y1 = pos.y + 22.0f;
-
-		TextMeasureData textData;
-		memset(&textData, 0, sizeof(TextMeasureData));
-		textData.fontSize = 1.0f;
-		textData.renderShadow = true;
-
-		CaretMeasureData caretData;
-		memset(&caretData, 1, sizeof(CaretMeasureData));
-
-		ctx.drawDebugText(&renderAABB, &text, &mce::Color::WHITE, 1.0f, ui::Right, &textData, &caretData);
-		ctx.flushText(0.0f);
-	}
-};
-
-void UIControlFactory__populateCustomRenderComponent(UIControlFactory* self, const UIResolvedDef& resolved, UIControl& control) {
-	std::string rendererType = resolved.getAsString("renderer");
-
-	if (rendererType == "offhand_hud_renderer") {
-		Log::Info("Making offhand_hud_renderer!");
-
-		control.setComponent<CustomRenderComponent>(
-			std::make_unique<CustomRenderComponent>(control)
-		);
-
-		CustomRenderComponent* component = control.getComponent<CustomRenderComponent>();
-		component->setRenderer(std::make_shared<TestRenderer>());
-
-		return;
-	}
-
-	_UIControlFactory__populateCustomRenderComponent.call<void, UIControlFactory*, const UIResolvedDef&, UIControl&>(self, resolved, control);
+    return std::shared_ptr<ContainerModel>(model, [](ContainerModel* containerModel) {
+        containerModel->~ContainerModel();
+        ::operator delete(containerModel);
+    });
 }
 
-void RegisterOffhandHud()
+Amethyst::InlineHook<decltype(&HudContainerManagerModel::_postInit)> _HudContainerManagerModel__postInit;
+
+ContainerScreenContext HudContainerManagerModel__postInit(HudContainerManagerModel* self)
 {
-    Amethyst::HookManager& hooks = Amethyst::GetHookManager();
-	HOOK(UIControlFactory, _populateCustomRenderComponent);
-} 
+    ContainerScreenContext context = _HudContainerManagerModel__postInit(self);
+    self->_addContainer(createOffhandContainerModel(self->mPlayer));
+    return context;
+}
+
+// Player::~Player releases the HUD's container models after the entity has lost its components, which
+// OffhandContainerModel::releaseResources doesn't expect since screens release theirs while the player still exists.
+// With the hand container gone its listeners are too, so only ContainerModel's own part is left to release.
+Amethyst::InlineHook<decltype(&OffhandContainerModel::releaseResources)> _OffhandContainerModel_releaseResources;
+
+void OffhandContainerModel_releaseResources(OffhandContainerModel* self)
+{
+    if (self->mPlayer.getEntity().tryGetComponent<ActorEquipmentComponent>() != nullptr) {
+        _OffhandContainerModel_releaseResources(self);
+        return;
+    }
+
+    ContainerModel::$direct_releaseResources(self);
+}
+
+// A GUI scale change rebinds every screen outside MinecraftGame::_update's ItemRegistryManager::ScopedItemRegistry.
+// The offhand slot is always visible, so its item bindings run then and ItemStackBase::getColor would build an
+// ItemDescriptor with no item registry.
+using HudCollectionBind = bool (HudScreenController::*)(const std::string&, uint32_t, int, const std::string&, uint32_t, const std::string&, UIPropertyBag&);
+Amethyst::InlineHook<HudCollectionBind> _HudScreenController_bindCollection;
+
+bool HudScreenController_bindCollection(HudScreenController* self, const std::string& collectionName, uint32_t collectionNameHash, int collectionIndex, const std::string& bindingName, uint32_t bindingNameHash, const std::string& bindingNameOverride, UIPropertyBag& bag)
+{
+    ClientInstance* client = Amethyst::GetClientCtx().mClientInstance;
+    LocalPlayer* player = client != nullptr ? client->getLocalPlayer() : nullptr;
+    if (!ItemRegistryManager::getItemRegistry().mWeakRegistry.expired() || player == nullptr || player->mLevel == nullptr)
+        return _HudScreenController_bindCollection(self, collectionName, collectionNameHash, collectionIndex, bindingName, bindingNameHash, bindingNameOverride, bag);
+
+    ItemRegistryManager::ScopedItemRegistry registry(player->mLevel->getItemRegistry().mWeakRegistry);
+    return _HudScreenController_bindCollection(self, collectionName, collectionNameHash, collectionIndex, bindingName, bindingNameHash, bindingNameOverride, bag);
+}
+
+} // namespace
+
+void OffhandHud::Initialize()
+{
+    auto& hooks = Amethyst::GetHookManager();
+    HOOK_DIRECT_VIRTUAL(HudContainerManagerModel, _postInit);
+    HOOK_DIRECT_VIRTUAL(OffhandContainerModel, releaseResources);
+    HOOK_DIRECT_VIRTUAL_NAMED(HudScreenController, bind, HudScreenController_bindCollection);
+}
